@@ -31,7 +31,7 @@ const buttonVariants = cva(
         glass:
           "glass-panel text-foreground glass-hover border-accent/30",
 
-        // 🔥 NEW: Gradient-border variant (inner styling is lightweight, outer border is from HoverBorderGradient)
+        // NEW: Gradient-border variant (inner styling is lightweight, outer border is from HoverBorderGradient)
         gradient:
           "rounded-full px-6 py-3 text-sm md:text-base font-semibold",
       },
@@ -72,7 +72,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : "button";
 
-    // ✅ Special rendering for gradient variant
+    // Special rendering for gradient variant
     if (variant === "gradient") {
       const innerClasses = cn(
         buttonVariants({ variant: "gradient", size }),
@@ -91,7 +91,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       );
     }
 
-    // ✅ All other variants behave as normal shadcn buttons
+    // All other variants behave as normal shadcn buttons
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}

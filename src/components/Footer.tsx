@@ -62,16 +62,13 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4 text-foreground">Connect</h4>
             <div className="flex gap-4 mb-4">
-              <a href="#" className="w-10 h-10 rounded-lg glass-panel glass-hover flex items-center justify-center">
-                <Github className="w-5 h-5 text-foreground" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-lg glass-panel glass-hover flex items-center justify-center">
-                <Linkedin className="w-5 h-5 text-foreground" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-lg glass-panel glass-hover flex items-center justify-center">
+              <a href="https://www.instagram.com/zapster_25?igsh=M2M1cG16cGJzOXF3" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg glass-panel glass-hover flex items-center justify-center">
                 <Twitter className="w-5 h-5 text-foreground" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-lg glass-panel glass-hover flex items-center justify-center">
+              <a href="http://linkedin.com/company/zapsters-inc" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg glass-panel glass-hover flex items-center justify-center">
+                <Linkedin className="w-5 h-5 text-foreground" />
+              </a>
+              <a href="mailto:zapsters23@gmail.com" className="w-10 h-10 rounded-lg glass-panel glass-hover flex items-center justify-center">
                 <Mail className="w-5 h-5 text-foreground" />
               </a>
             </div>

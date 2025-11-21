@@ -19,8 +19,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { GradientButton } from "@/components/ui/gradient-button";
-import DarkVeil from "@/components/DarkVeil"; // ✅ added
-import PixelCard from "@/components/PixelCard"; // ✅ PixelCard added
+import DarkVeil from "@/components/DarkVeil"; // added
+import PixelCard from "@/components/PixelCard"; // PixelCard added
 
 // ---- SAMPLE DATA ----
 const projectCategories = [

@@ -11,7 +11,6 @@ const Navigation = () => {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Services", href: "/services" },
-    { label: "Portfolio", href: "/portfolio" },
     { label: "Internships", href: "/internships" },
     { label: "Blog", href: "/blog" },
     { label: "Contact", href: "/contact" },
@@ -48,9 +47,11 @@ const Navigation = () => {
 
           {/* RIGHT — CTA Button */}
           <div className="hidden md:flex">
-            <GradientButton className="rounded-full">
-              Join Our Community
-            </GradientButton>
+            <Link to="/contact">
+              <GradientButton className="rounded-full">
+                Join Our Community
+              </GradientButton>
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -79,9 +80,11 @@ const Navigation = () => {
               ))}
 
               {/* ⭐ Mobile CTA */}
-              <GradientButton className="w-full rounded-full">
-                Join Our Community
-              </GradientButton>
+              <Link to="/contact">
+                <GradientButton className="w-full rounded-full">
+                  Join Our Community
+                </GradientButton>
+              </Link>
             </div>
           </div>
         )}

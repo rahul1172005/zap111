@@ -57,7 +57,7 @@ const Services = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="p-6 h-full flex flex-col">
-                  {/* ✅ Icon style matched with Internships track cards */}
+                  {/* Icon style matched with Internships track cards */}
                   <span className="w-10 h-10 rounded-2xl glass-panel border border-accent/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                     <Icon className="w-5 h-5 text-accent" />
                   </span>

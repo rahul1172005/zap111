@@ -19,7 +19,7 @@ export const GradientButton = React.forwardRef<
       as="button"
       containerClassName={cn("rounded-full", containerClassName)}
       className={cn(
-        // 👇 match shadcn `size="lg"`: h-11 px-8
+        // match shadcn `size="lg"`: h-11 px-8
         "h-10 px-8 text-sm md:text-base font-semibold",
         "flex items-center justify-center gap-2",
         "bg-[#13070a]/90 text-red-100",

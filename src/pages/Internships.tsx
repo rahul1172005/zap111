@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { submitInternshipApplication } from "@/lib/internshipService";
 import {
   Laptop2,
   Palette,
@@ -20,9 +22,9 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { GradientButton } from "@/components/ui/gradient-button"; // ✅ gradient CTA
-import DarkVeil from "@/components/DarkVeil"; // ✅ DarkVeil background
-import PixelCard from "@/components/PixelCard"; // ✅ PixelCard added
+import { GradientButton } from "@/components/ui/gradient-button"; // gradient CTA
+import DarkVeil from "@/components/DarkVeil"; // DarkVeil background
+import PixelCard from "@/components/PixelCard"; // PixelCard added
 
 type ModeType = "Remote" | "On-site" | "Hybrid";
 
@@ -140,10 +142,12 @@ const durations = [
 ];
 
 const InternshipsPage = () => {
+  const { toast } = useToast();
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
   const [selectedModeFilter, setSelectedModeFilter] = useState<ModeType | "All">(
     "All"
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const filteredTracks = tracks.filter((track) =>
     selectedModeFilter === "All" ? true : track.mode.includes(selectedModeFilter)
@@ -498,10 +502,52 @@ const InternshipsPage = () => {
 
                 <form
                   className="space-y-4"
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
-                    // TODO: replace alert with your backend / API integration
-                    alert("Internship form submitted. Plug your backend here.");
+                    setIsSubmitting(true);
+
+                    const form = e.currentTarget;
+                    const formData = new FormData(form);
+
+                    try {
+                      const applicationData = {
+                        fullName: formData.get('fullName') as string,
+                        email: formData.get('email') as string,
+                        phone: formData.get('phone') as string || '',
+                        organization: formData.get('organization') as string || '',
+                        currentLevel: formData.get('currentLevel') as string,
+                        preferredTrack: formData.get('preferredTrack') as string,
+                        preferredDuration: formData.get('preferredDuration') as string,
+                        startDate: formData.get('startDate') as string || '',
+                        dailyTimeCommitment: formData.get('dailyTimeCommitment') as string || '',
+                        preferredMode: formData.get('preferredMode') as string || 'Remote',
+                        currentSkills: formData.get('currentSkills') as string || '',
+                        portfolioLinks: formData.get('portfolioLinks') as string || '',
+                        motivation: formData.get('motivation') as string,
+                        openToRelatedTracks: formData.get('openToRelatedTracks') === 'on',
+                        receiveUpdates: formData.get('receiveUpdates') === 'on',
+                      };
+
+                      await submitInternshipApplication(applicationData);
+                      
+                      toast({
+                        title: "Application submitted successfully!",
+                        description: "We'll review your application and get back to you soon.",
+                      });
+
+                      // Reset form
+                      form.reset();
+                      setSelectedTrack(null);
+                    } catch (error) {
+                      console.error('Error submitting application:', error);
+                      toast({
+                        title: "Error submitting application",
+                        description: "Please try again or contact us directly.",
+                        variant: "destructive",
+                      });
+                    } finally {
+                      setIsSubmitting(false);
+                    }
                   }}
                 >
                   {/* Name + Email */}
@@ -511,6 +557,7 @@ const InternshipsPage = () => {
                         Full Name
                       </label>
                       <Input
+                        name="fullName"
                         required
                         placeholder="Your name"
                         className="glass-panel border-accent/30"
@@ -521,6 +568,7 @@ const InternshipsPage = () => {
                         Email
                       </label>
                       <Input
+                        name="email"
                         type="email"
                         required
                         placeholder="you@example.com"
@@ -536,6 +584,7 @@ const InternshipsPage = () => {
                         WhatsApp / Phone
                       </label>
                       <Input
+                        name="phone"
                         placeholder="+91 ..."
                         className="glass-panel border-accent/30"
                       />
@@ -545,6 +594,7 @@ const InternshipsPage = () => {
                         College / Organization
                       </label>
                       <Input
+                        name="organization"
                         placeholder="Your college or org name"
                         className="glass-panel border-accent/30"
                       />
@@ -557,7 +607,7 @@ const InternshipsPage = () => {
                       <label className="text-xs text-muted-foreground mb-1 block">
                         Current level
                       </label>
-                      <select className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
+                      <select name="currentLevel" className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
                         <option>UG – 1st / 2nd year</option>
                         <option>UG – 3rd / Final year</option>
                         <option>PG student</option>
@@ -569,7 +619,7 @@ const InternshipsPage = () => {
                       <label className="text-xs text-muted-foreground mb-1 block">
                         Preferred track
                       </label>
-                      <select className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
+                      <select name="preferredTrack" className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
                         <option>Select a track</option>
                         {tracks.map((t) => (
                           <option
@@ -590,7 +640,7 @@ const InternshipsPage = () => {
                       <label className="text-xs text-muted-foreground mb-1 block">
                         Preferred duration
                       </label>
-                      <select className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
+                      <select name="preferredDuration" className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
                         {durations.map((d) => (
                           <option key={d}>{d}</option>
                         ))}
@@ -603,6 +653,7 @@ const InternshipsPage = () => {
                       </label>
                       {/* Native calendar picker */}
                       <Input
+                        name="startDate"
                         type="date"
                         className="glass-panel border-accent/30 text-xs"
                       />
@@ -616,6 +667,7 @@ const InternshipsPage = () => {
                         Daily time you can commit
                       </label>
                       <Input
+                        name="dailyTimeCommitment"
                         placeholder="e.g., 2–3 hours on weekdays, more on weekends"
                         className="glass-panel border-accent/30 text-xs"
                       />
@@ -632,7 +684,7 @@ const InternshipsPage = () => {
                           >
                             <input
                               type="radio"
-                              name="intern-mode"
+                              name="preferredMode"
                               value={mode}
                               className="accent-accent"
                               defaultChecked={mode === "Remote"}
@@ -651,6 +703,7 @@ const InternshipsPage = () => {
                         Current skills / tools
                       </label>
                       <Input
+                        name="currentSkills"
                         placeholder="e.g., React, Python, Figma, basic Linux..."
                         className="glass-panel border-accent/30 text-xs"
                       />
@@ -660,6 +713,7 @@ const InternshipsPage = () => {
                         Portfolio / GitHub / LinkedIn (optional)
                       </label>
                       <Input
+                        name="portfolioLinks"
                         placeholder="Paste any relevant links"
                         className="glass-panel border-accent/30 text-xs"
                       />
@@ -672,7 +726,9 @@ const InternshipsPage = () => {
                       Why do you want to join this internship?
                     </label>
                     <textarea
+                      name="motivation"
                       rows={4}
+                      required
                       placeholder="Tell us what you want to learn, build, or achieve through this internship..."
                       className="w-full text-sm glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent resize-none"
                     />
@@ -681,24 +737,28 @@ const InternshipsPage = () => {
                   {/* Extra options */}
                   <div className="flex flex-col gap-2 text-[11px] text-muted-foreground">
                     <label className="inline-flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" className="accent-accent" />
+                      <input name="openToRelatedTracks" type="checkbox" className="accent-accent" />
                       <span>
-                        I’m open to being considered for related tracks if my
+                        I'm open to being considered for related tracks if my
                         primary track is full.
                       </span>
                     </label>
                     <label className="inline-flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" className="accent-accent" />
+                      <input name="receiveUpdates" type="checkbox" className="accent-accent" />
                       <span>
-                        I’d like to receive updates about future cohorts, workshops
+                        I'd like to receive updates about future cohorts, workshops
                         & openings.
                       </span>
                     </label>
                   </div>
 
                   <div className="flex justify-end pt-2">
-                    <GradientButton className="rounded-full flex items-center gap-2">
-                      Submit Application
+                    <GradientButton 
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="rounded-full flex items-center gap-2"
+                    >
+                      {isSubmitting ? "Submitting..." : "Submit Application"}
                       <Sparkles className="w-4 h-4" />
                     </GradientButton>
                   </div>

@@ -24,7 +24,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { GradientButton } from "@/components/ui/gradient-button";
 import DarkVeil from "@/components/DarkVeil";
-import PixelCard from "@/components/PixelCard"; // ✅ PixelCard added
+import PixelCard from "@/components/PixelCard"; // PixelCard added
 
 const serviceCategories = [
   "All",

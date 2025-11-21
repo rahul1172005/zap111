@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Calendar, Users, Award } from "lucide-react";
@@ -109,20 +110,17 @@ const Internships = () => {
                 </div>
 
                 {/* ⭐ APPLY BUTTON (GRADIENT) */}
-                <GradientButton className="w-full rounded-full">
-                  Apply Now
-                </GradientButton>
+                <Link to="/contact">
+                  <GradientButton className="w-full rounded-full">
+                    Apply Now
+                  </GradientButton>
+                </Link>
               </Card>
             </ElectricBorder>
           ))}
         </div>
 
-        {/* ⭐ VIEW ALL PROGRAMS */}
-        <div className="text-center">
-          <GradientButton className="rounded-full px-10">
-            View All Programs
-          </GradientButton>
-        </div>
+
       </div>
     </section>
   );

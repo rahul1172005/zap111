@@ -1,14 +1,24 @@
 "use client";
 
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import DarkVeil from "@/components/DarkVeil";
 import ShinyText from "@/components/ShinyText";
-import { GradientButton } from "@/components/ui/gradient-button"; // ✅ gradient CTA
+import { GradientButton } from "@/components/ui/gradient-button"; // gradient CTA
+import QuoteModal from "@/components/QuoteModal";
 
 const Hero = () => {
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+
   return (
-    <section
+    <>
+      <QuoteModal 
+        isOpen={isQuoteModalOpen} 
+        onClose={() => setIsQuoteModalOpen(false)} 
+      />
+      <section
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
@@ -49,21 +59,28 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            {/* ✅ Gradient primary CTA, same style as other pages */}
-            <GradientButton className="group rounded-full">
-              Join Our Community
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </GradientButton>
+            {/* Gradient primary CTA, same style as other pages */}
+            <Link to="/contact">
+              <GradientButton className="group rounded-full">
+                Join Our Community
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </GradientButton>
+            </Link>
 
             {/* Secondary glass CTA, sized to match */}
-            <Button variant="glass" size="lg" className="rounded-full">
+            <Button 
+              variant="glass" 
+              size="lg" 
+              className="rounded-full"
+              onClick={() => setIsQuoteModalOpen(true)}
+            >
               Get a Free Quote
             </Button>
           </div>
 
           <div className="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto">
             <div className="glass-panel p-6 rounded-lg">
-              <div className="text-3xl font-bold text-accent mb-2">50+</div>
+               <div className="text-3xl font-bold text-accent mb-2">17+</div>
               <div className="text-sm text-muted-foreground">
                 Projects Delivered
               </div>
@@ -83,7 +100,8 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 };
 

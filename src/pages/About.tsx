@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Users, Target, Rocket, Sparkles, Quote, Star } from "lucide-react";
 
 import Navigation from "@/components/Navigation";
@@ -10,17 +11,18 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { GradientButton } from "@/components/ui/gradient-button";
 import DarkVeil from "@/components/DarkVeil";
-import PixelCard from "@/components/PixelCard"; // ✅ PixelCard added
+import PixelCard from "@/components/PixelCard"; // PixelCard added
 
 const teamMembers = [
   { name: "Sabari Raja M", role: "Founder & CEO", tag: "Vision, Strategy" },
   { name: "Rahul R", role: "Co-Founder & CTO ", tag: "Technical Lead" },
-  { name: "Praveen S", role: "Co-Founder & MD ", tag: "Managing and Finance" },
-  { name: "Balakumaran", role: "Cybersecurity Analyst", tag: "Red Team" },
+  { name: "Praveen S", role: "Co-Founder & CFO ", tag: "Finance and Sales" },
+  { name: "Balakumaran", role: "Cybersecurity Lead", tag: "Red Team" },
   { name: "Praveen N", role: "3D & Motion Designer", tag: "3D & VFX" },
   { name: "Raghunandhan T", role: "Developer", tag: "FSD" },
   { name: "Sanjay Akash", role: "Developer", tag: "FSD" },
   { name: "Rithik Balaji G K", role: "UI/UX Designer", tag: "Creative" },
+  { name: "Vishal R", role: "3D Designer", tag: "3D & VFX" },
 ];
 
 const About = () => {
@@ -73,13 +75,17 @@ const About = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <GradientButton className="rounded-full">
-                Join Our Community
-              </GradientButton>
+              <Link to="/contact">
+                <GradientButton className="rounded-full">
+                  Join Our Community
+                </GradientButton>
+              </Link>
 
-              <Button variant="glass" size="lg" className="rounded-full">
-                Explore Our Services
-              </Button>
+               <Link to="/services">
+                 <Button variant="glass" size="lg" className="rounded-full">
+                   Explore Our Services
+                 </Button>
+               </Link>
             </div>
 
             {/* Stats Row */}
@@ -174,19 +180,18 @@ const About = () => {
                 </div>
               </div>
 
-              <p className="text-muted-foreground mb-4">
-                Sabari founded Zapsters to create a high-performance ecosystem
-                where students & creators get to build real, meaningful products —
-                not just theory. His work merges{" "}
-                <span className="text-accent">web engineering</span>,{" "}
-                <span className="text-accent">security</span>, and{" "}
-                <span className="text-accent">product strategy</span>.
-              </p>
+               <p className="text-muted-foreground mb-4">
+                 Sabari founded Zapsters to create a high-performance ecosystem
+                 where students & creators get to build real, meaningful products —
+                 not just theory. His work merges{" "}
+                 <span className="text-accent">web engineering</span> and{" "}
+                 <span className="text-accent">product strategy</span>.
+               </p>
 
               <div className="flex flex-wrap gap-2 mb-4">
-                <span className="px-3 py-1 text-xs rounded-full glass-panel border border-accent/30">
-                  Full-Stack & Cybersecurity
-                </span>
+                 <span className="px-3 py-1 text-xs rounded-full glass-panel border border-accent/30">
+                   Full-Stack
+                 </span>
                 <span className="px-3 py-1 text-xs rounded-full glass-panel border border-accent/30">
                   Product & UI/UX
                 </span>
@@ -251,25 +256,25 @@ const About = () => {
                 </Avatar>
                 <div>
                   <h3 className="text-xl font-bold">Praveen S</h3>
-                  <p className="text-sm text-accent">
-                    Co-Founder & Managing Director
-                  </p>
+                   <p className="text-sm text-accent">
+                     Co-Founder & CFO
+                   </p>
                 </div>
               </div>
 
-              <p className="text-muted-foreground mb-4">
-                Praveen leads the operational and financial engine of Zapsters —
-                ensuring stability, scalability, and smooth execution across all
-                service verticals. He bridges{" "}
-                <span className="text-accent">management</span>,{" "}
-                <span className="text-accent">business</span>, and{" "}
-                <span className="text-accent">client success</span>.
-              </p>
+               <p className="text-muted-foreground mb-4">
+                 Praveen leads the financial and sales engine of Zapsters —
+                 ensuring stability, scalability, and smooth execution across all
+                 service verticals. He bridges{" "}
+                 <span className="text-accent">finance</span>,{" "}
+                 <span className="text-accent">business</span>, and{" "}
+                 <span className="text-accent">sales</span>.
+               </p>
 
               <div className="flex flex-wrap gap-2 mb-4">
-                <span className="px-3 py-1 text-xs rounded-full glass-panel border border-accent/30">
-                  Operations & Finance
-                </span>
+                 <span className="px-3 py-1 text-xs rounded-full glass-panel border border-accent/30">
+                   Finance & Sales
+                 </span>
                 <span className="px-3 py-1 text-xs rounded-full glass-panel border border-accent/30">
                   Business Strategy
                 </span>

@@ -148,7 +148,7 @@ void mainImage(in vec4 inputColor, in vec2 uv, out vec4 outputColor) {
 }
 `;
 
-// ✅ No custom `uniforms` property here, we use the one from Effect
+// No custom `uniforms` property here, we use the one from Effect
 class RetroEffectImpl extends Effect {
   constructor() {
     const uniforms = new Map<string, THREE.Uniform<any>>([
@@ -243,7 +243,7 @@ function DitheredWaves({
     mouseRadius: new THREE.Uniform(mouseRadius),
   });
 
-  // ✅ keep resolution in sync with canvas size & DPR
+  // keep resolution in sync with canvas size & DPR
   useEffect(() => {
     const dpr = gl.getPixelRatio();
     const newWidth = Math.floor(size.width * dpr);

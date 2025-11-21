@@ -3,21 +3,41 @@ import { useEffect } from "react";
 import { ArrowLeft, Calendar, Clock, Tag, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useQuery } from "@tanstack/react-query";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { blogPosts } from "@/data/blogPosts";
+import { getBlogPostBySlug, getRelatedPosts } from "@/lib/blogService";
 import { toast } from "sonner";
 
 const BlogPost = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const post = blogPosts.find((p) => p.slug === slug);
+
+  const { data: post, isLoading: postLoading } = useQuery({
+    queryKey: ['blogPost', slug],
+    queryFn: () => getBlogPostBySlug(slug!),
+    enabled: !!slug,
+  });
+
+  const { data: relatedPosts = [] } = useQuery({
+    queryKey: ['relatedPosts', post?.category, post?.id],
+    queryFn: () => getRelatedPosts(post!.category, post!.id),
+    enabled: !!post,
+  });
 
   useEffect(() => {
-    if (!post) {
+    if (!postLoading && !post) {
       navigate("/blog");
     }
-  }, [post, navigate]);
+  }, [post, postLoading, navigate]);
+
+  if (postLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-xl text-muted-foreground">Loading post...</p>
+      </div>
+    );
+  }
 
   if (!post) {
     return null;
@@ -37,10 +57,6 @@ const BlogPost = () => {
       toast.success("Link copied to clipboard!");
     }
   };
-
-  const relatedPosts = blogPosts
-    .filter((p) => p.id !== post.id && p.category === post.category)
-    .slice(0, 3);
 
   return (
     <div className="min-h-screen bg-background">

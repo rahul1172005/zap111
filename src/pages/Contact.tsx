@@ -10,31 +10,83 @@ import {
   Globe,
   Sparkles,
 } from "lucide-react";
+import { useState } from "react";
 
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { GradientButton } from "@/components/ui/gradient-button"; // ✅ gradient CTA
-import DarkVeil from "@/components/DarkVeil"; // ✅ DarkVeil background
+import { GradientButton } from "@/components/ui/gradient-button";
+import DarkVeil from "@/components/DarkVeil";
+import { submitContactForm } from "@/lib/contactService";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const addressText =
     "29, Silambu St, Senthil Nagar, Loganathan Nagar, Padmanabha Nagar, Choolaimedu, Chennai, Tamil Nadu 600094";
 
   const mapsQuery = encodeURIComponent(addressText);
 
-  // ✅ View in Maps (for links)
+  // View in Maps (for links)
   const mapsPlaceUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
-  // ✅ Directions (for links)
+  // Directions (for links)
   const mapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
-  // ✅ Proper embed URL for iframe
+  // Proper embed URL for iframe
   const mapsEmbedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 
   const whatsappUrl = "https://wa.me/919080176830";
   const phoneUrl = "tel:+919342408432";
   const emailUrl = "mailto:zapsters23@gmail.com";
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const form = e.currentTarget;
+    
+    try {
+      const formData = new FormData(form);
+      const contactData = {
+        fullName: formData.get('fullName') as string,
+        email: formData.get('email') as string,
+        phone: formData.get('phone') as string || '',
+        organization: formData.get('organization') as string || '',
+        projectType: formData.get('projectType') as string,
+        budget: formData.get('budget') as string,
+        timeline: formData.get('timeline') as string,
+        startDate: formData.get('startDate') as string || '',
+        contactMethod: formData.get('contact-mode') as string || 'email',
+        links: formData.get('links') as string || '',
+        message: formData.get('message') as string,
+        newsletter: formData.get('newsletter') === 'on',
+        termsAccepted: formData.get('terms') === 'on',
+      };
+
+      await submitContactForm(contactData);
+      
+      toast({
+        title: "Form submitted successfully!",
+        description: "We'll get back to you within 24-48 hours.",
+      });
+
+      // Reset form safely
+      if (form) {
+        form.reset();
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error submitting form",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -94,14 +146,14 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-                <span className="glass-panel rounded-full px-3 py-1">
-                  🔐 We don&apos;t share your details with anyone.
-                </span>
-                <span className="glass-panel rounded-full px-3 py-1">
-                  💬 Prefer WhatsApp? Mention it in the form.
-                </span>
-              </div>
+               <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+                 <span className="glass-panel rounded-full px-3 py-1">
+                   We don&apos;t share your details with anyone.
+                 </span>
+                 <span className="glass-panel rounded-full px-3 py-1">
+                   Prefer WhatsApp? Mention it in the form.
+                 </span>
+               </div>
             </div>
 
             {/* Right stats / quick info */}
@@ -233,13 +285,7 @@ const Contact = () => {
 
                 <form
                   className="space-y-4"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    // TODO: replace this with your backend or API integration
-                    alert(
-                      "Contact form submitted. Plug your backend / email service here."
-                    );
-                  }}
+                  onSubmit={handleFormSubmit}
                 >
                   {/* Name + Email */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -248,6 +294,7 @@ const Contact = () => {
                         Full Name
                       </label>
                       <Input
+                        name="fullName"
                         required
                         placeholder="Your name"
                         className="glass-panel border-accent/30"
@@ -258,6 +305,7 @@ const Contact = () => {
                         Email
                       </label>
                       <Input
+                        name="email"
                         type="email"
                         required
                         placeholder="you@example.com"
@@ -273,6 +321,7 @@ const Contact = () => {
                         WhatsApp / Phone
                       </label>
                       <Input
+                        name="phone"
                         placeholder="+91 ..."
                         className="glass-panel border-accent/30"
                       />
@@ -282,6 +331,7 @@ const Contact = () => {
                         College / Company (optional)
                       </label>
                       <Input
+                        name="organization"
                         placeholder="Your college / brand / studio"
                         className="glass-panel border-accent/30"
                       />
@@ -294,7 +344,7 @@ const Contact = () => {
                       <label className="text-xs text-muted-foreground mb-1 block">
                         What are you looking for?
                       </label>
-                      <select className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
+                      <select name="projectType" className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
                         <option>Select one</option>
                         <option>Website / Product build</option>
                         <option>UI/UX & Branding</option>
@@ -308,7 +358,7 @@ const Contact = () => {
                       <label className="text-xs text-muted-foreground mb-1 block">
                         Approx. budget / scale
                       </label>
-                      <select className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
+                      <select name="budget" className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
                         <option>Student / Low-budget project</option>
                         <option>₹10k – ₹25k</option>
                         <option>₹25k – ₹50k</option>
@@ -325,7 +375,7 @@ const Contact = () => {
                       <label className="text-xs text-muted-foreground mb-1 block">
                         Timeline preference
                       </label>
-                      <select className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
+                      <select name="timeline" className="w-full text-xs glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent">
                         <option>As soon as possible</option>
                         <option>Within 2–4 weeks</option>
                         <option>Within 1–3 months</option>
@@ -338,6 +388,7 @@ const Contact = () => {
                       </label>
                       {/* Native calendar picker */}
                       <Input
+                        name="startDate"
                         type="date"
                         className="glass-panel border-accent/30 text-xs"
                       />
@@ -395,6 +446,7 @@ const Contact = () => {
                         Relevant links (optional)
                       </label>
                       <Input
+                        name="links"
                         placeholder="Existing site, Figma, GitHub, Notion, etc."
                         className="glass-panel border-accent/30 text-xs"
                       />
@@ -407,6 +459,7 @@ const Contact = () => {
                       Tell us a bit about your idea / requirement
                     </label>
                     <textarea
+                      name="message"
                       rows={4}
                       placeholder="Describe the problem, goals, audience, or anything you'd like us to know..."
                       className="w-full text-sm glass-panel border border-accent/30 rounded-xl bg-background/60 px-3 py-2 outline-none focus:border-accent resize-none"
@@ -416,14 +469,14 @@ const Contact = () => {
                   {/* Newsletter / updates */}
                   <div className="flex flex-col gap-2 text-[11px] text-muted-foreground">
                     <label className="inline-flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" className="accent-accent" />
+                      <input name="newsletter" type="checkbox" className="accent-accent" />
                       <span>
                         Keep me posted about Zapsters internships, workshops &
                         launches.
                       </span>
                     </label>
                     <label className="inline-flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" className="accent-accent" />
+                      <input name="terms" type="checkbox" className="accent-accent" />
                       <span>
                         I understand this is not a spam list and I can opt-out
                         anytime.
@@ -432,9 +485,13 @@ const Contact = () => {
                   </div>
 
                   <div className="flex justify-end pt-2">
-                    {/* ✅ Gradient submit button like other pages */}
-                    <GradientButton className="rounded-full flex items-center gap-2">
-                      Send message
+                     {/* Gradient submit button like other pages */}
+                    <GradientButton 
+                      type="submit" 
+                      disabled={isSubmitting}
+                      className="rounded-full flex items-center gap-2"
+                    >
+                      {isSubmitting ? "Sending..." : "Send message"}
                       <Send className="w-4 h-4" />
                     </GradientButton>
                   </div>
@@ -507,11 +564,11 @@ const Contact = () => {
                   </span>{" "}
                   but collaborate with students & teams across time zones.
                 </p>
-                <div className="text-xs space-y-1 text-muted-foreground">
-                  <p>⚡ Remote-first, project-based teams.</p>
-                  <p>🏫 Open to college / campus collaborations.</p>
-                  <p>🌍 Comfortable with async global communication.</p>
-                </div>
+               <div className="text-xs space-y-1 text-muted-foreground">
+                 <p>Remote-first, project-based teams.</p>
+                 <p>Open to college / campus collaborations.</p>
+                 <p>Comfortable with async global communication.</p>
+               </div>
               </Card>
 
               <Card className="glass-panel border-accent/25 p-5">
@@ -524,12 +581,12 @@ const Contact = () => {
                   launches.
                 </p>
                 <div className="flex flex-wrap gap-2 text-[11px]">
-                  <span className="px-3 py-1 rounded-full glass-panel border border-accent/30 cursor-pointer">
+                  <a href="https://www.instagram.com/zapster_25?igsh=M2M1cG16cGJzOXF3" target="_blank" rel="noopener noreferrer" className="px-3 py-1 rounded-full glass-panel border border-accent/30 hover:border-accent/60 transition-colors">
                     Instagram
-                  </span>
-                  <span className="px-3 py-1 rounded-full glass-panel border border-accent/30 cursor-pointer">
+                  </a>
+                  <a href="http://linkedin.com/company/zapsters-inc" target="_blank" rel="noopener noreferrer" className="px-3 py-1 rounded-full glass-panel border border-accent/30 hover:border-accent/60 transition-colors">
                     LinkedIn
-                  </span>
+                  </a>
                   <span className="px-3 py-1 rounded-full glass-panel border border-accent/30 cursor-pointer">
                     Discord / Community
                   </span>
@@ -576,7 +633,6 @@ const Contact = () => {
               {/* Quick map actions */}
 <div className="mt-4 flex flex-wrap gap-2 text-[11px]">
 
-  {/* 🔴 Gradient CTA — Open in Google Maps */}
   <GradientButton
     className="rounded-full text-[11px] px-4 py-2"
     onClick={() => window.open(mapsPlaceUrl, "_blank")}
@@ -584,7 +640,6 @@ const Contact = () => {
     Open in Google Maps
   </GradientButton>
 
-  {/* 🔴 SAME STYLE — Get Directions */}
   <GradientButton
     className="rounded-full text-[11px] px-4 py-2"
     onClick={() => window.open(mapsDirectionsUrl, "_blank")}

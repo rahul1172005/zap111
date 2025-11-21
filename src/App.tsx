@@ -7,12 +7,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
-import About from "./pages/About";   // ✅ Add About Page
+import About from "./pages/About";   // Add About Page
 import NotFound from "./pages/NotFound";
 import Services from "./pages/Services";
 import Internships from "./pages/Internships";
 import Contact from "./pages/Contact";
 import PortfolioPage from "./pages/PortfolioPage";
+import AdminBlog from "./pages/AdminBlog";
+import AdminDashboard from "./pages/AdminDashboard";
+import Admin from "./pages/Admin";
+import AdminInternships from "./pages/AdminInternships";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +26,12 @@ const App = () => (
       <Toaster />
       <Sonner />
 
-      <BrowserRouter>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <Routes>
           {/* Home */}
           <Route path="/" element={<Index />} />
@@ -32,14 +41,18 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
 
-          {/* Blog */}
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
+           {/* Blog */}
+           <Route path="/blog" element={<Blog />} />
+           <Route path="/blog/:slug" element={<BlogPost />} />
+           <Route path="/admin" element={<AdminDashboard />} />
+           <Route path="/admin/blog" element={<AdminBlog />} />
+           <Route path="/admin/quotes" element={<Admin />} />
+           <Route path="/admin/internships" element={<AdminInternships />} />
 
-          <Route path="/services" element={<Services />} /> 
-          
+           <Route path="/services" element={<Services />} /> 
 
-          <Route path="/internships" element={<Internships />} />
+
+           <Route path="/internships" element={<Internships />} />
 
           
 

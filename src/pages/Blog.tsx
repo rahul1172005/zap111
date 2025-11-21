@@ -5,9 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useQuery } from "@tanstack/react-query";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { blogPosts, categories } from "@/data/blogPosts";
+import { categories } from "@/data/blogPosts";
+import { getBlogPosts } from "@/lib/blogService";
 
 const newsUpdates = [
   {
@@ -36,6 +38,11 @@ const Blog = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
+  const { data: blogPosts = [], isLoading } = useQuery({
+    queryKey: ['blogPosts'],
+    queryFn: getBlogPosts,
+  });
+
   const filteredPosts = useMemo(() => {
     return blogPosts.filter((post) => {
       const query = searchQuery.toLowerCase();
@@ -49,7 +56,7 @@ const Blog = () => {
 
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, selectedCategory, blogPosts]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -66,7 +73,7 @@ const Blog = () => {
               Insights, tutorials, and stories from our team of experts
             </p>
 
-            {/* 🔄 News Marquee (infinite scroll) */}
+            {/* News Marquee (infinite scroll) */}
             <div className="mb-6">
               <div className="relative glass-panel border border-accent/25 rounded-full px-4 py-2 overflow-hidden">
                 {/* Gradient masks */}
@@ -133,7 +140,11 @@ const Blog = () => {
       {/* Blog Posts */}
       <section className="pb-24">
         <div className="container mx-auto px-4 lg:px-8">
-          {filteredPosts.length === 0 ? (
+          {isLoading ? (
+            <div className="text-center py-16">
+              <p className="text-xl text-muted-foreground">Loading posts...</p>
+            </div>
+          ) : filteredPosts.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-xl text-muted-foreground">
                 No articles found. Try adjusting your search or filters.

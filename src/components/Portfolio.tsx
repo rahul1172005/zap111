@@ -1,5 +1,4 @@
 import PixelCard from "@/components/PixelCard";
-import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 
 const projects = [
@@ -81,11 +80,7 @@ const Portfolio = () => {
           ))}
         </div>
 
-        <div className="text-center">
-          <Button variant="glass" size="lg" className="rounded-full">
-            View Full Portfolio
-          </Button>
-        </div>
+
       </div>
     </section>
   );
