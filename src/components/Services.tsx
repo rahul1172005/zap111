@@ -14,6 +14,7 @@ import {
 
 import PixelCard from "@/components/PixelCard";
 import ShinyText from "@/components/ShinyText";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const services = [
   { icon: Code2, title: "Web Development", description: "Full-stack applications built with modern frameworks and best practices." },
@@ -30,6 +31,7 @@ const services = [
 ];
 
 const Services = () => {
+  const isMobile = useIsMobile();
   return (
     <section id="services" className="py-0 relative">
       <div className="container mx-auto px-2 lg:px-6">
@@ -42,6 +44,7 @@ const Services = () => {
             <ShinyText
               text="From concept to deployment, we deliver comprehensive solutions across multiple domains"
               speed={3}
+              disabled={isMobile}
             />
           </p>
         </div>
@@ -55,10 +58,11 @@ const Services = () => {
                 variant="pink"
                 className="group animate-fade-in-up cursor-pointer"
                 style={{ animationDelay: `${index * 0.1}s` }}
+                isMobile={isMobile}
               >
                 <div className="p-6 h-full flex flex-col">
                   {/* Icon style matched with Internships track cards */}
-                  <span className="w-10 h-10 rounded-2xl glass-panel border border-accent/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <span className={`w-10 h-10 rounded-2xl border border-accent/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${isMobile ? 'bg-background/50' : 'glass-panel'}`}>
                     <Icon className="w-5 h-5 text-accent" />
                   </span>
 

@@ -159,6 +159,7 @@ interface PixelCardProps {
   className?: string;
   style?: React.CSSProperties;
   children: React.ReactNode;
+  isMobile?: boolean; // Add isMobile prop
 }
 
 interface VariantConfig {
@@ -176,7 +177,8 @@ export default function PixelCard({
   colors,
   noFocus,
   className = '',
-  children
+  children,
+  isMobile // Destructure isMobile prop
 }: PixelCardProps): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -268,6 +270,7 @@ export default function PixelCard({
   };
 
   useEffect(() => {
+    if (isMobile) return; // Don't initialize on mobile
     initPixels();
     const observer = new ResizeObserver(() => {
       initPixels();
@@ -282,19 +285,23 @@ export default function PixelCard({
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [finalGap, finalSpeed, finalColors, finalNoFocus]);
+  }, [finalGap, finalSpeed, finalColors, finalNoFocus, isMobile]);
 
   return (
     <div
       ref={containerRef}
       className={`pixel-card ${className}`}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onFocus={finalNoFocus ? undefined : onFocus}
-      onBlur={finalNoFocus ? undefined : onBlur}
-      tabIndex={finalNoFocus ? -1 : 0}
+      onMouseEnter={isMobile ? undefined : onMouseEnter}
+      onMouseLeave={isMobile ? undefined : onMouseLeave}
+      onFocus={finalNoFocus || isMobile ? undefined : onFocus}
+      onBlur={finalNoFocus || isMobile ? undefined : onBlur}
+      tabIndex={finalNoFocus || isMobile ? -1 : 0}
     >
-      <canvas className="pixel-canvas" ref={canvasRef} />
+      <canvas
+        className="pixel-canvas"
+        ref={canvasRef}
+        style={{ display: isMobile ? 'none' : 'block' }}
+      />
       {children}
     </div>
   );

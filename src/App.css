@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Responsive h1 */
+@media (max-width: 768px) {
+  .responsive-h1 {
+    font-size: 3rem; /* Adjust font size for smaller screens */
+  }
+}
