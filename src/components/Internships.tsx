@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Calendar, Users, Award } from "lucide-react";
 import ElectricBorder from "@/components/ElectricBorder";
 import { GradientButton } from "@/components/ui/gradient-button"; // ⭐ IMPORT
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const internshipPrograms = [
   {
@@ -38,6 +39,8 @@ const internshipPrograms = [
 ];
 
 const Internships = () => {
+  const isMobile = useIsMobile();
+
   return (
     <section id="internships" className="py-4 relative">
       <div className="container mx-auto px-4 lg:px-8">
@@ -53,19 +56,8 @@ const Internships = () => {
 
         {/* PROGRAM CARDS */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {internshipPrograms.map((program, index) => (
-            <ElectricBorder
-              key={program.title}
-              color="#fb5a5aff"
-              speed={2}
-              chaos={0.2}
-              thickness={3}
-              className="animate-fade-in-up"
-              style={{
-                borderRadius: 20,
-                animationDelay: `${index * 0.15}s`,
-              }}
-            >
+          {internshipPrograms.map((program, index) => {
+            const cardContent = (
               <Card className="glass-panel p-6 glass-hover border-accent/20 h-full">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">
                   {program.title}
@@ -116,8 +108,29 @@ const Internships = () => {
                   </GradientButton>
                 </Link>
               </Card>
-            </ElectricBorder>
-          ))}
+            );
+
+            if (isMobile) {
+              return cardContent;
+            }
+
+            return (
+              <ElectricBorder
+                key={program.title}
+                color="#fb5a5aff"
+                speed={2}
+                chaos={0.2}
+                thickness={3}
+                className="animate-fade-in-up"
+                style={{
+                  borderRadius: 20,
+                  animationDelay: `${index * 0.15}s`,
+                }}
+              >
+                {cardContent}
+              </ElectricBorder>
+            );
+          })}
         </div>
 
 
