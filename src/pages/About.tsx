@@ -91,7 +91,7 @@ const About = () => {
             {/* Stats Row */}
             <div className="grid grid-cols-3 gap-6 mt-12 max-w-xl mx-auto text-center">
               <div className="glass-panel p-4 rounded-lg">
-                <div className="text-2xl font-bold text-accent mb-1">50+</div>
+                <div className="text-2xl font-bold text-accent mb-1">17+</div>
                 <div className="text-xs text-muted-foreground">
                   Projects Delivered
                 </div>
