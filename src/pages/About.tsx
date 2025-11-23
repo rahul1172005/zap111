@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { GradientButton } from "@/components/ui/gradient-button";
 import DarkVeil from "@/components/DarkVeil";
 import PixelCard from "@/components/PixelCard"; // PixelCard added
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const teamMembers = [
   { name: "Sabari Raja M", role: "Founder & CEO", tag: "Vision, Strategy" },
@@ -28,6 +29,7 @@ const teamMembers = [
 const About = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [direction, setDirection] = useState<"left" | "right">("left");
+  const isMobile = useIsMobile();
 
   return (
     <div className="min-h-screen bg-background">
@@ -89,26 +91,28 @@ const About = () => {
             </div>
 
             {/* Stats Row */}
-            <div className="grid grid-cols-3 gap-6 mt-12 max-w-xl mx-auto text-center">
-              <div className="glass-panel p-4 rounded-lg">
-                <div className="text-2xl font-bold text-accent mb-1">17+</div>
-                <div className="text-xs text-muted-foreground">
-                  Projects Delivered
+            {!isMobile && (
+              <div className="grid grid-cols-3 gap-6 mt-12 max-w-xl mx-auto text-center">
+                <div className="glass-panel p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-accent mb-1">17+</div>
+                  <div className="text-xs text-muted-foreground">
+                    Projects Delivered
+                  </div>
+                </div>
+                <div className="glass-panel p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-accent mb-1">200+</div>
+                  <div className="text-xs text-muted-foreground">
+                    Students Trained
+                  </div>
+                </div>
+                <div className="glass-panel p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-accent mb-1">12</div>
+                  <div className="text-xs text-muted-foreground">
+                    Core Service Verticals
+                  </div>
                 </div>
               </div>
-              <div className="glass-panel p-4 rounded-lg">
-                <div className="text-2xl font-bold text-accent mb-1">200+</div>
-                <div className="text-xs text-muted-foreground">
-                  Students Trained
-                </div>
-              </div>
-              <div className="glass-panel p-4 rounded-lg">
-                <div className="text-2xl font-bold text-accent mb-1">12</div>
-                <div className="text-xs text-muted-foreground">
-                  Core Service Verticals
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
