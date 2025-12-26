@@ -15,6 +15,7 @@ import {
   Calendar,
   CheckCircle2,
   ChevronRight,
+  Brain,
 } from "lucide-react";
 
 import Navigation from "@/components/Navigation";
@@ -29,6 +30,7 @@ import PixelCard from "@/components/PixelCard"; // PixelCard added
 const serviceCategories = [
   "All",
   "Web & UI/UX",
+  "AI & Machine Learning",
   "Cybersecurity",
   "3D & Design",
   "Hardware / IoT / BioTech",
@@ -54,6 +56,15 @@ const services = [
     description:
       "Neuromorphic, futuristic, and accessible product design — from wireframes to pixel-perfect screens.",
     points: ["Design systems", "Interactive prototypes", "Brand-aligned visuals"],
+  },
+  {
+    title: "AI & ML Solutions",
+    category: "AI & Machine Learning",
+    icon: Brain,
+    badge: "Artificial Intelligence",
+    description:
+      "Smart automation, LLMs, and predictive models tailored to your business needs.",
+    points: ["Custom LLMs", "Computer Vision", "Automation Agents"],
   },
   {
     title: "Security Assessment & Hardening",
@@ -156,6 +167,7 @@ const faqItems = [
 const serviceTags = [
   "Web App / Website",
   "UI/UX Design",
+  "AI & ML",
   "Cybersecurity",
   "3D / Motion",
   "Digital Marketing",
@@ -355,11 +367,10 @@ const ServicesPage = () => {
                 <button
                   key={tag}
                   onClick={() => setSelectedTag(active ? null : tag)}
-                  className={`px-3 py-1 rounded-full border text-[11px] transition-all ${
-                    active
-                      ? "border-accent bg-accent/20 text-accent"
-                      : "border-accent/30 bg-background/40 text-muted-foreground hover:border-accent/60"
-                  }`}
+                  className={`px-3 py-1 rounded-full border text-[11px] transition-all ${active
+                    ? "border-accent bg-accent/20 text-accent"
+                    : "border-accent/30 bg-background/40 text-muted-foreground hover:border-accent/60"
+                    }`}
                 >
                   {tag}
                 </button>
@@ -602,11 +613,10 @@ const ServicesPage = () => {
                           onClick={() =>
                             setSelectedTag((prev) => (prev === tag ? null : tag))
                           }
-                          className={`px-3 py-1 rounded-full border text-[11px] transition-all ${
-                            selectedTag === tag
-                              ? "border-accent bg-accent/20 text-accent"
-                              : "border-accent/30 bg-background/40 text-muted-foreground hover:border-accent/60"
-                          }`}
+                          className={`px-3 py-1 rounded-full border text-[11px] transition-all ${selectedTag === tag
+                            ? "border-accent bg-accent/20 text-accent"
+                            : "border-accent/30 bg-background/40 text-muted-foreground hover:border-accent/60"
+                            }`}
                         >
                           {tag}
                         </button>

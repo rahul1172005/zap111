@@ -28,6 +28,15 @@ const internshipPrograms = [
     tags: ["Figma", "Design Systems", "User Research"],
   },
   {
+    title: "AI & Machine Learning",
+    duration: "4 Months",
+    mentors: "ML Engineers",
+    seats: "15 Available",
+    description:
+      "Train models, build using LLMs, and understand the math behind intelligence.",
+    tags: ["Python", "TensorFlow", "Generative AI"],
+  },
+  {
     title: "Cybersecurity",
     duration: "4 Months",
     mentors: "Security Specialists",

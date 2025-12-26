@@ -15,25 +15,25 @@ const AdminNav = () => {
   };
 
   return (
-    <nav className="bg-background border-b">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 glass-panel bg-background/50 backdrop-blur-md">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/admin" className="text-lg font-semibold">
-              Admin Panel
+          <div className="flex items-center gap-2">
+            <Link to="/admin" className="text-lg font-bold tracking-tight">
+              Zapsters <span className="text-accent">Admin</span>
             </Link>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 to={item.href}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-sm font-medium text-muted-foreground hover:text-accent transition-colors"
               >
                 {item.label}
               </Link>
             ))}
-            <Button variant="destructive" onClick={handleLogout}>
+            <Button variant="destructive" size="sm" onClick={handleLogout} className="glass-panel border-red-500/30 text-red-400 hover:bg-red-500/10">
               Logout
             </Button>
           </div>
