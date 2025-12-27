@@ -202,7 +202,7 @@ const InternshipsPage = () => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <GradientButton
-                  className="rounded-full flex items-center gap-2"
+                  className="rounded-full flex items-center gap-2 relative"
                   onClick={() => {
                     const el = document.getElementById("internship-form");
                     el?.scrollIntoView({ behavior: "smooth" });
@@ -210,6 +210,9 @@ const InternshipsPage = () => {
                 >
                   Apply for Internship
                   <CalendarIcon className="w-4 h-4" />
+                  <span className="absolute -top-3 -right-3 bg-white text-accent font-bold text-[10px] px-2 py-0.5 rounded-full animate-pulse shadow-lg">
+                    Paid Available
+                  </span>
                 </GradientButton>
 
                 <Button
@@ -248,6 +251,10 @@ const InternshipsPage = () => {
                   <li className="flex gap-2">
                     <CheckCircle2 className="w-4 h-4 text-accent mt-0.5" />
                     <span>Access to Zapsters community & future openings.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-accent mt-0.5" />
+                    <span className="font-semibold text-foreground">Paid opportunities for top performers.</span>
                   </li>
                 </ul>
               </Card>

@@ -59,7 +59,7 @@ const Internships = () => {
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Get hands-on experience, work on real projects, and launch your tech
-            career
+            career. <span className="text-accent font-semibold">Paid & Unpaid Tracks Available.</span>
           </p>
         </div>
 
