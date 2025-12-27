@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   Sparkles,
   Brain,
+  BarChart3,
 } from "lucide-react";
 
 import Navigation from "@/components/Navigation";
@@ -101,6 +102,18 @@ const tracks: InternshipTrack[] = [
     description:
       "Blend 3D and web — from product mockups to hero animations using modern tools.",
     bullets: ["3D scenes", "Motion graphics", "Web integration"],
+  },
+  {
+    id: "powerbi",
+    title: "Power BI & Data Analytics",
+    badge: "DAX · SQL · Visualization",
+    icon: BarChart3,
+    level: "Beginner Friendly",
+    mode: ["Remote", "Hybrid"],
+    durationLabel: "1–4 weeks",
+    description:
+      "Master data storytelling, build interactive dashboards, and solve business problems with data.",
+    bullets: ["Data modeling", "Dashboard design", "Business intelligence"],
   },
 ];
 

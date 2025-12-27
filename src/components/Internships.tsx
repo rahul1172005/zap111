@@ -45,6 +45,15 @@ const internshipPrograms = [
       "Dive deep into ethical hacking, penetration testing, and security protocols.",
     tags: ["Ethical Hacking", "Network Security", "OWASP"],
   },
+  {
+    title: "Power BI & Data Analytics",
+    duration: "2 Months",
+    mentors: "Data Analysts",
+    seats: "15 Available",
+    description:
+      "Transform data into actionable insights using Power BI, SQL, and advanced visualization techniques.",
+    tags: ["Power BI", "SQL", "DAX"],
+  },
 ];
 
 const Internships = () => {
